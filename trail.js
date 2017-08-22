@@ -14,19 +14,19 @@
      this.passengers=passengers;
      this.capacity = capacity;
    }//end wagon
-
+   //get random number from method
    function getRandomIntInclusive(min, max) {
      min = Math.ceil(min);
      max = Math.floor(max);
      return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
    }
-
+   //make a new traveler
    function makeTraveler(tempName) {
      let amount=getRandomIntInclusive(1,100);
      let tempTraveler = new Traveler(tempName, amount, true);
      return tempTraveler;
    }
-
+   //make a wagon
    function makeWagon(tempCapacity)
    {
      let passengers=[];
@@ -34,6 +34,7 @@
      let tempWagon = new Wagon(tempCapacity, passengers);
      return tempWagon;
    }
+   //possibly add more food
    function hunt(temp){
      let chance = getRandomIntInclusive(0,1);
      let holder = temp.amount;
@@ -42,6 +43,7 @@
      //console.log("old food amount: " + holder + " new food amount: " + temp.amount + " chance was " + chance);
    }//end hunt
 
+   //remove food
    function eat(temp){
      let holder = temp.amount;
      temp.amount=temp.amount-20;
@@ -51,20 +53,22 @@
      }//if not enough food, amount is set to zero and isHealthy is false
      //console.log("old food amount: " + holder + " new food amount: " + temp.amount + " " + temp.name + " isHealthy is now " + temp.isHealthy);
    }
-
+   
    function join(tempWagon, tempTraveler){
      let check=tempWagon.passengers.length;
      //console.log("check: " + check + "capacity: " + tempWagon.capacity + "traveler check:" + tempTraveler.name)
+     //if adding person won't put wagon over capacity, add the person
      if(check<tempWagon.capacity){
        tempWagon.passengers.push(tempTraveler)
        check=tempWagon.passengers.length;
        //console.log("check: " + check + "capacity: " + tempWagon.capacity + "traveler check:" + tempTraveler.name)
-     }
+     } else {console.log("Not able to add you to the wagon until you take someone out!")}
      //console.log("Capacity: " + tempWagon.capacity + "passenger list: " + tempWagon.passengers.length);
    }
 
    function quarantine(tempWagon){
      let holder = true;
+     //check if anyone is unhealthy, if one is found, break loop
      for(let i = 0; i < tempWagon.passengers.length; i++){
        //console.log(tempWagon.passengers[i]);
        if(tempWagon.passengers[i].isHealthy===false) {
@@ -76,6 +80,7 @@
 
    function food(tempWagon){
      let food = 0;
+     //go through wagon and count food for each passenger
      for(let i = 0; i < tempWagon.passengers.length; i++) {
        food = food + tempWagon.passengers[i].amount;
        //console.log(tempWagon.passengers[i]);
